@@ -3,7 +3,9 @@ use glium::{glutin, Display, Surface};
 use glutin::event::Event;
 use glutin::event_loop::{ControlFlow, EventLoop};
 
-use crate::window_manager::{self, WindowManager};
+use crate::window_manager::WindowManager;
+
+use egui::{Layout, Align};
 
 pub struct Interface {
     display: Display,
@@ -14,12 +16,9 @@ impl Interface {
     pub fn new(event_loop: EventLoop<()>) -> Self {
         let window_builder = glutin::window::WindowBuilder::new()
             .with_resizable(false)
-            .with_inner_size(glutin::dpi::LogicalSize {
-                width: 200.0,
-                height: 200.0,
-            })
             .with_transparent(true)
-            .with_decorations(false);
+            .with_decorations(false)
+            .with_always_on_top(true);
 
         let context_builder = glutin::ContextBuilder::new()
             .with_depth_buffer(0)
@@ -35,7 +34,7 @@ impl Interface {
         }
     }
 
-    fn redraw(display: &Display, egui_glium: &mut EguiGlium, control_flow: &mut ControlFlow) {
+    fn redraw(display: &Display, egui_glium: &mut EguiGlium, control_flow: &mut ControlFlow, window_manager: &WindowManager) {
         egui_glium.begin_frame(display);
 
         let frame = egui::containers::Frame {
@@ -48,14 +47,21 @@ impl Interface {
             fill: egui::Color32::DARK_GRAY,
             stroke: egui::Stroke::new(2.0, egui::Color32::BLACK),
         };
+
         egui::Window::new("test")
             .frame(frame)
             .resizable(false)
+            .fixed_pos((0.0, 0.0))
+            .fixed_size((100.0, 50.0))
             .show(egui_glium.ctx(), |ui| {
-                if ui.button("abc").clicked() {
-                    println!("Yo");
-                };
+                ui.with_layout(Layout::top_down_justified(Align::Center), |ui| {
+                    if ui.button("abc").clicked() {
+                        println!("Yo");
+                    };
+                });
+                window_manager.update_window_size(&display, ui.ctx().used_rect());
             });
+            
         let (needs_repaint, shapes) = egui_glium.end_frame(display);
 
         if needs_repaint {
@@ -81,10 +87,10 @@ impl Interface {
         let window_manager = WindowManager::new("INSIDE").unwrap();
 
         self.event_loop.run(move |event, _, mut control_flow| {
-            window_manager.update_window_sizepos(&self.display);
             match event {
                 Event::RedrawEventsCleared => {
-                    Interface::redraw(&self.display, &mut egui_glium, &mut control_flow)
+                    window_manager.update_window_pos(&self.display);
+                    Interface::redraw(&self.display, &mut egui_glium, &mut control_flow, &window_manager);
                 }
 
                 Event::WindowEvent { event, .. } => {
