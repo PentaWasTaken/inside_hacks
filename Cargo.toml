@@ -10,6 +10,7 @@ egui = "0.15"
 egui_glium = "0.15"
 glium = "0.30"
 glutin = "0.27.0"
+raw-window-handle = "0.3.3"
 
 [dependencies.windows]
 version = "0.24.0"
@@ -17,5 +18,6 @@ features = [
     "Win32_UI_WindowsAndMessaging",
     "Win32_Foundation",
     "Win32_Graphics_Dwm",
-    "Win32_UI_Controls"
+    "Win32_UI_Controls",
+    "Win32_UI_Input_KeyboardAndMouse",
 ]
