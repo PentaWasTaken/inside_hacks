@@ -7,7 +7,7 @@ use glium::glutin::event_loop::EventLoop;
 
 fn main() {
     let event_loop = EventLoop::with_user_event();
-    let interface = Interface::new(event_loop);
+    let interface = Interface::new(&event_loop);
 
-    interface.run();
+    interface.run(event_loop);
 }
