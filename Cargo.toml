@@ -12,6 +12,8 @@ glium = "0.30"
 glutin = "0.27.0"
 raw-window-handle = "0.3.3"
 
+memhack = {git = "https://github.com/PentaWasTaken/memhack"}
+
 [dependencies.windows]
 version = "0.24.0"
 features = [
