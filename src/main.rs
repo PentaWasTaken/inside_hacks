@@ -3,6 +3,8 @@ use interface::Interface;
 
 mod window_manager;
 
+mod widgets;
+
 use glium::glutin::event_loop::EventLoop;
 
 use windows::Win32::System::Console::GetConsoleWindow;
