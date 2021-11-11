@@ -5,16 +5,23 @@ use glutin::event_loop::{ControlFlow, EventLoop};
 
 use crate::window_manager::WindowManager;
 
+use crate::widgets::Widgets;
+
 use egui::{Align, Layout};
+
+use std::time::{Instant, Duration};
+
+const FPS: u64 = 60;
 
 pub struct Interface {
     display: Display,
     egui_glium: EguiGlium,
     window_manager: WindowManager,
+    widgets: Widgets,
 }
 
 impl Interface {
-    pub fn new(event_loop: &EventLoop<()>) -> Self {
+    pub fn new(event_loop: &EventLoop<()>, widgets: Widgets) -> Self {
         let window_builder = glutin::window::WindowBuilder::new()
             .with_resizable(false)
             .with_transparent(true)
@@ -35,6 +42,7 @@ impl Interface {
             display,
             egui_glium,
             window_manager,
+            widgets,
         }
     }
 
@@ -53,17 +61,15 @@ impl Interface {
         };
 
         let mut open = true;
-        egui::Window::new("test")
+        egui::Window::new("hackerman")
             .frame(frame)
             .resizable(false)
             .fixed_pos((0.0, 0.0))
-            .fixed_size((100.0, 50.0))
+            .fixed_size((300.0, 50.0))
             .open(&mut open)
             .show(self.egui_glium.ctx(), |ui| {
                 ui.with_layout(Layout::top_down_justified(Align::Center), |ui| {
-                    if ui.button("abc").clicked() {
-                        println!("Yo");
-                    };
+                    self.widgets.display(ui);
                 });
                 self.window_manager
                     .update_window_size(&self.display, ui.ctx().used_rect());
@@ -77,7 +83,7 @@ impl Interface {
             self.display.gl_window().window().request_redraw();
             *control_flow = ControlFlow::Poll;
         } else {
-            *control_flow = ControlFlow::Wait;
+            *control_flow = ControlFlow::Poll;
         }
 
         let mut target = self.display.draw();
@@ -91,23 +97,34 @@ impl Interface {
     }
 
     pub fn run(mut self, event_loop: EventLoop<()>) {
-        event_loop.run(move |event, _, mut control_flow| match event {
-            Event::RedrawEventsCleared => {
-                self.window_manager.update_window_pos(&self.display);
-                self.window_manager.update_window_visibility();
-                self.redraw(&mut control_flow)
-            }
+        event_loop.run(move |event, _, mut control_flow| {
+            let start_time = Instant::now();
+            match event {
+                Event::WindowEvent { event, .. } => {
+                    self.egui_glium.on_event(&event);
+                    if self.egui_glium.is_quit_event(&event) {
+                        *control_flow = ControlFlow::Exit;
+                    }
+                },
+                Event::MainEventsCleared => {
+                    self.redraw(&mut control_flow);
+                    self.window_manager.update_window_pos(&self.display);
+                    self.window_manager.update_window_visibility();
 
-            Event::WindowEvent { event, .. } => {
-                if self.egui_glium.is_quit_event(&event) {
-                    *control_flow = ControlFlow::Exit;
+                    let elapsed = Instant::now().duration_since(start_time).as_millis() as u64;
+
+                    let wait_time = match 1000 / FPS >= elapsed {
+                        true => 1000 / FPS - elapsed,
+                        false => 0,
+                    };
+                    let new_inst = start_time + Duration::from_millis(wait_time);
+
+                    if *control_flow != ControlFlow::Exit {
+                        *control_flow = ControlFlow::WaitUntil(new_inst);
+                    }
                 }
-
-                self.egui_glium.on_event(&event);
-
-                self.display.gl_window().window().request_redraw();
-            }
-            _ => (),
+                _ => ()
+            };
         });
     }
 }
