@@ -5,11 +5,11 @@ use memhack::MemHook;
 
 use std::fmt::Display;
 use std::marker::PhantomData;
-use std::str::FromStr;
 use std::ops::Add;
+use std::str::FromStr;
 
-use egui::Key;
 use egui::widgets::{Label, TextEdit};
+use egui::Key;
 
 const HEIGHT: f32 = 20.0;
 
@@ -49,7 +49,9 @@ where
     }
 
     fn write_value(&self, memhook: &MemHook, value: T) {
-        memhook.write_val_ptr(self.base, &self.offsets, value).unwrap();
+        memhook
+            .write_val_ptr(self.base, &self.offsets, value)
+            .unwrap();
     }
 }
 
@@ -59,10 +61,19 @@ where
 {
     fn draw(&mut self, ui: &mut egui::Ui, memhook: &MemHook) {
         ui.horizontal(|ui| {
-            ui.add_sized((self.sizes.0, HEIGHT), Label::new(format!("{}: ", self.name)));
-            ui.add_sized((self.sizes.1, HEIGHT), Label::new(format!("{:.4}", self.read_value(memhook))));
-            
-            let text_edit_response = ui.add_sized((self.sizes.2, HEIGHT), TextEdit::singleline(&mut self.text_buffer));
+            ui.add_sized(
+                (self.sizes.0, HEIGHT),
+                Label::new(format!("{}: ", self.name)),
+            );
+            ui.add_sized(
+                (self.sizes.1, HEIGHT),
+                Label::new(format!("{:.4}", self.read_value(memhook))),
+            );
+
+            let text_edit_response = ui.add_sized(
+                (self.sizes.2, HEIGHT),
+                TextEdit::singleline(&mut self.text_buffer),
+            );
             if text_edit_response.lost_focus() && ui.input().key_pressed(Key::Enter) {
                 let parsed_value = self.text_buffer.parse::<T>();
 

@@ -9,7 +9,7 @@ use crate::widgets::Widgets;
 
 use egui::{Align, Layout};
 
-use std::time::{Instant, Duration};
+use std::time::{Duration, Instant};
 
 const FPS: u64 = 60;
 
@@ -56,19 +56,19 @@ impl Interface {
                 extrusion: 0.0,
                 ..Default::default()
             },
-            fill: egui::Color32::DARK_GRAY,
+            fill: egui::Color32::from_gray(30),
             stroke: egui::Stroke::new(2.0, egui::Color32::BLACK),
         };
 
         let mut open = true;
-        egui::Window::new("hackerman")
+        egui::Window::new("insert dumb caption")
             .frame(frame)
             .resizable(false)
             .fixed_pos((0.0, 0.0))
             .fixed_size((300.0, 50.0))
             .open(&mut open)
             .show(self.egui_glium.ctx(), |ui| {
-                ui.with_layout(Layout::top_down_justified(Align::Center), |ui| {
+                ui.with_layout(Layout::top_down(Align::Min), |ui| {
                     self.widgets.display(ui);
                 });
                 self.window_manager
@@ -105,7 +105,7 @@ impl Interface {
                     if self.egui_glium.is_quit_event(&event) {
                         *control_flow = ControlFlow::Exit;
                     }
-                },
+                }
                 Event::MainEventsCleared => {
                     self.redraw(&mut control_flow);
                     self.window_manager.update_window_pos(&self.display);
@@ -123,7 +123,7 @@ impl Interface {
                         *control_flow = ControlFlow::WaitUntil(new_inst);
                     }
                 }
-                _ => ()
+                _ => (),
             };
         });
     }
