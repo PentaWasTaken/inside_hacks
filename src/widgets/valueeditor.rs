@@ -45,13 +45,11 @@ where
     }
 
     fn read_value(&self, memhook: &MemHook) -> T {
-        memhook.read_val_ptr(self.base, &self.offsets).unwrap()
+        memhook.read_val_ptr(self.base, &self.offsets).unwrap_or(T::default())
     }
 
     fn write_value(&self, memhook: &MemHook, value: T) {
-        memhook
-            .write_val_ptr(self.base, &self.offsets, value)
-            .unwrap();
+        let _ = memhook.write_val_ptr(self.base, &self.offsets, value);
     }
 }
 
