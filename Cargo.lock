@@ -808,8 +808,9 @@ checksum = "308cc39be01b73d0d18f82a0e7b2a3df85245f84af96fdddc5d202d27e47b86a"
 [[package]]
 name = "memhack"
 version = "0.1.0"
-source = "git+https://github.com/PentaWasTaken/memhack#1e845bb58fa101b841b06cfb94ceb2eb2d65b278"
+source = "git+https://github.com/PentaWasTaken/memhack#15152962c283a59d14c455c2ca35f32d588434c2"
 dependencies = [
+ "subslice",
  "windows",
 ]
 
@@ -1338,6 +1339,15 @@ name = "strsim"
 version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
+
+[[package]]
+name = "subslice"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e0a8e4809a3bb02de01f1f7faf1ba01a83af9e8eabcd4d31dd6e413d14d56aae"
+dependencies = [
+ "memchr",
+]
 
 [[package]]
 name = "syn"
