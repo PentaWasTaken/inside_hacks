@@ -24,7 +24,6 @@ impl Widgets {
         let memhook = MemHook::from_process("INSIDE.exe").unwrap();
 
         let inside_base = memhook.get_module_base_address("INSIDE.exe").unwrap();
-        let mono_base = memhook.get_module_base_address("mono.dll").unwrap();
 
         let pos_sizes = (90.0, 60.0, 100.0);
 
@@ -51,9 +50,9 @@ impl Widgets {
 
         let jump_strength_edit = Box::new(ValueEditor::<f32>::new(
             "Jump Strength".to_string(),
-            mono_base,
+            inside_base,
             vec![
-                0x294BA8, 0x20, 0x4F8, 0x0, 0x78, 0x88, 0x68, 0x30, 0x18, 0x14,
+                0xF99BA8, 0xC8, 0x78, 0x188, 0x28, 0xD8, 0x20, 0x68, 0x30, 0x18, 0x14,
             ],
             pos_sizes,
         ));
