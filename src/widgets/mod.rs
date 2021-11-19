@@ -4,6 +4,9 @@ use valueeditor::ValueEditor;
 mod checkbox_aob;
 use checkbox_aob::CheckboxAOB;
 
+mod savestate;
+use savestate::Savestate;
+
 use egui::Ui;
 
 use memhack::MemHook;
@@ -57,6 +60,12 @@ impl Widgets {
             pos_sizes,
         ));
 
+        let save_state = Box::new(Savestate::new(inside_base, [
+            vec![0xF92610, 0x4c0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x10],
+            vec![0xF92610, 0x4c0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x14],
+            vec![0x1001FA0, 0x260, 0x2E8, 0x318, 0x10, 0x28, 0x40, 0x18],
+        ]));
+
         let fall_damage_hack = Box::new(CheckboxAOB::new(
             "Disable Fall Damage".to_string(),
             FALL_DAMAGE_BYTES.to_vec(),
@@ -71,6 +80,7 @@ impl Widgets {
                 y_pos_edit,
                 z_pos_edit,
                 jump_strength_edit,
+                save_state,
                 fall_damage_hack,
             ],
             memhook,
