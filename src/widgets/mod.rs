@@ -1,8 +1,8 @@
 mod valueeditor;
 use valueeditor::ValueEditor;
 
-mod checkbox_aob;
-use checkbox_aob::CheckboxAOB;
+mod checkbox;
+use checkbox::Checkbox;
 
 mod savestate;
 use savestate::Savestate;
@@ -66,12 +66,12 @@ impl Widgets {
             vec![0x1001FA0, 0x260, 0x2E8, 0x318, 0x10, 0x28, 0x40, 0x18],
         ]));
 
-        let fall_damage_hack = Box::new(CheckboxAOB::new(
+        let fall_damage_hack = Box::new(Checkbox::new(
             "Disable Fall Damage".to_string(),
-            FALL_DAMAGE_BYTES.to_vec(),
-            (Some(0x2000000), None),
-            vec![0xC3],
-            vec![0x55],
+            inside_base,
+            vec![0xF8D708, 0x118, 0xC0, 0x468, 0x200, 0x130, 0xB4, 0xC2C],
+            vec![0xFF, 0x90, 0xC0, 0x00, 0x00, 0x00],
+            vec![0x90, 0x90, 0x90, 0x90, 0x90, 0x90],
         ));
 
         Self {
