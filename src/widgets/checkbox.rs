@@ -12,7 +12,13 @@ pub struct Checkbox {
 }
 
 impl Checkbox {
-    pub fn new(name: String, base: usize, offsets: Vec<usize>, original_bytes: Vec<u8>, replace_bytes: Vec<u8>) -> Self {
+    pub fn new(
+        name: String,
+        base: usize,
+        offsets: Vec<usize>,
+        original_bytes: Vec<u8>,
+        replace_bytes: Vec<u8>,
+    ) -> Self {
         Self {
             name,
             base,
@@ -42,5 +48,9 @@ impl Widget for Checkbox {
         } else if prev_activated && !self.activated {
             self.deactivate(memhook);
         }
+    }
+
+    fn close(&self, memhook: &MemHook) {
+        self.deactivate(memhook);
     }
 }

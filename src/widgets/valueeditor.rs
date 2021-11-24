@@ -45,7 +45,9 @@ where
     }
 
     fn read_value(&self, memhook: &MemHook) -> T {
-        memhook.read_val_ptr(self.base, &self.offsets).unwrap_or(T::default())
+        memhook
+            .read_val_ptr(self.base, &self.offsets)
+            .unwrap_or(T::default())
     }
 
     fn write_value(&self, memhook: &MemHook, value: T) {
@@ -101,4 +103,6 @@ where
             }
         });
     }
+
+    fn close(&self, memhook: &MemHook) {}
 }
