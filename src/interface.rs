@@ -78,6 +78,7 @@ impl Interface {
         let (needs_repaint, shapes) = self.egui_glium.end_frame(&self.display);
 
         if !open {
+            self.widgets.close();
             *control_flow = ControlFlow::Exit;
         } else if needs_repaint {
             self.display.gl_window().window().request_redraw();
