@@ -60,16 +60,35 @@ impl Widgets {
             pos_sizes,
         ));
 
-        let save_state = Box::new(Savestate::new(inside_base, [
-            vec![0xF92610, 0x4c0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x10],
-            vec![0xF92610, 0x4c0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x14],
-            vec![0x1001FA0, 0x260, 0x2E8, 0x318, 0x10, 0x28, 0x40, 0x18],
-        ]));
+        let run_speed_edit = Box::new(ValueEditor::<f32>::new(
+            "Run Speed".to_string(),
+            inside_base,
+            vec![
+                0xF99BA8, 0xC8, 0x78, 0x188, 0x28, 0xD8, 0x20, 0x68, 0x28, 0x14,
+            ],
+            pos_sizes,
+        ));
+
+        let breath_edit = Box::new(ValueEditor::<f32>::new(
+            "Breath".to_string(),
+            inside_base,
+            vec![0xF92610, 0x18, 0xE0, 0x98, 0x508, 0x20, 0x28, 0x104],
+            pos_sizes,
+        ));
+
+        let save_state = Box::new(Savestate::new(
+            inside_base,
+            [
+                vec![0xF92610, 0x4c0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x10],
+                vec![0xF92610, 0x4c0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x14],
+                vec![0x1001FA0, 0x260, 0x2E8, 0x318, 0x10, 0x28, 0x40, 0x18],
+            ],
+        ));
 
         let fall_damage_hack = Box::new(Checkbox::new(
             "Disable Fall Damage".to_string(),
             inside_base,
-            vec![0xF8D708, 0x118, 0xC0, 0x468, 0x200, 0x130, 0xB4, 0xC2C],
+            vec![0xF8D5D0, 0x38, 0xDC8, 0x28, 0x0, 0x130, 0xB4, 0xC2C],
             vec![0xFF, 0x90, 0xC0, 0x00, 0x00, 0x00],
             vec![0x90, 0x90, 0x90, 0x90, 0x90, 0x90],
         ));
@@ -80,6 +99,8 @@ impl Widgets {
                 y_pos_edit,
                 z_pos_edit,
                 jump_strength_edit,
+                run_speed_edit,
+                breath_edit,
                 save_state,
                 fall_damage_hack,
             ],
@@ -92,8 +113,14 @@ impl Widgets {
             widget.draw(ui, &self.memhook);
         }
     }
+
+    pub fn close(&self) {
+        self.widgets.iter().for_each(|f| f.close(&self.memhook));
+    }
 }
 
 pub trait Widget {
     fn draw(&mut self, ui: &mut Ui, memhook: &MemHook);
+
+    fn close(&self, memhook: &MemHook);
 }
