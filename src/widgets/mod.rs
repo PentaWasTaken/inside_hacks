@@ -7,6 +7,9 @@ use checkbox::Checkbox;
 mod savestate;
 use savestate::Savestate;
 
+mod valueeditor_multiple;
+use valueeditor_multiple::ValueEditorMultiple;
+
 use egui::Ui;
 
 use memhack::MemHook;
@@ -69,6 +72,23 @@ impl Widgets {
             pos_sizes,
         ));
 
+        let swim_speed_edit = Box::new(ValueEditorMultiple::<f32, 3>::new(
+            "Swim Speed".to_string(),
+            inside_base,
+            [
+                vec![
+                    0xF99BA8, 0xC8, 0x78, 0x188, 0x28, 0xD8, 0x20, 0x68, 0x68, 0x1C,
+                ],
+                vec![
+                    0xF99BA8, 0xC8, 0x78, 0x188, 0x28, 0xD8, 0x20, 0x68, 0x68, 0x18,
+                ],
+                vec![
+                    0xF99BA8, 0xC8, 0x78, 0x188, 0x28, 0xD8, 0x20, 0x68, 0x68, 0x20,
+                ],
+            ],
+            pos_sizes,
+        ));
+
         let breath_edit = Box::new(ValueEditor::<f32>::new(
             "Breath".to_string(),
             inside_base,
@@ -100,6 +120,7 @@ impl Widgets {
                 z_pos_edit,
                 jump_strength_edit,
                 run_speed_edit,
+                swim_speed_edit,
                 breath_edit,
                 save_state,
                 fall_damage_hack,
