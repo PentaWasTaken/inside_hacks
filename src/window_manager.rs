@@ -91,14 +91,12 @@ impl WindowManager {
 
     pub fn update_window_visibility(&self) {
         let foreground_window = unsafe { GetForegroundWindow() };
-        if foreground_window == self.overlay_window || foreground_window == self.game_window {
+        if foreground_window == self.overlay_window || foreground_window == self.game_window || foreground_window == HWND(0) {
             unsafe {
-                EnableWindow(self.overlay_window, true);
                 ShowWindow(self.overlay_window, SHOW_WINDOW_CMD(5));
             }
         } else {
-            unsafe {
-                EnableWindow(self.overlay_window, false);
+            unsafe {    
                 ShowWindow(self.overlay_window, SHOW_WINDOW_CMD(0));
             }
         }
