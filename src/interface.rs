@@ -61,7 +61,7 @@ impl Interface {
         };
 
         let mut open = true;
-        egui::Window::new("insert dumb caption")
+        egui::Window::new("Inside Hacks")
             .frame(frame)
             .resizable(false)
             .fixed_pos((0.0, 0.0))
