@@ -34,7 +34,7 @@ impl Interface {
             .with_stencil_buffer(0)
             .with_vsync(true);
 
-        let display = glium::Display::new(window_builder, context_builder, &event_loop).unwrap();
+        let display = glium::Display::new(window_builder, context_builder, event_loop).unwrap();
         let egui_glium = EguiGlium::new(&display);
         let window_manager = WindowManager::new("INSIDE", &display).unwrap();
 

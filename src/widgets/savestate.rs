@@ -77,7 +77,7 @@ impl Widget for Savestate {
                 Button::new("Load"),
             );
             if response.clicked() {
-                self.write_value(memhook);
+                let _ = self.write_value(memhook);
             }
         });
     }

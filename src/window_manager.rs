@@ -7,7 +7,6 @@ use std::ptr;
 
 use windows::Win32::Foundation::{HWND, PSTR, RECT};
 use windows::Win32::Graphics::Dwm::{DwmGetWindowAttribute, DWMWINDOWATTRIBUTE};
-use windows::Win32::UI::Input::KeyboardAndMouse::EnableWindow;
 use windows::Win32::UI::WindowsAndMessaging::{
     FindWindowA, GetForegroundWindow, GetSystemMetrics, SetForegroundWindow, SetWindowLongA,
     ShowWindow, SHOW_WINDOW_CMD, SYSTEM_METRICS_INDEX, WINDOW_LONG_PTR_INDEX,

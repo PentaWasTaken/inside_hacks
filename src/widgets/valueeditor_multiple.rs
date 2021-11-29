@@ -52,12 +52,12 @@ where
     fn read_value(&self, memhook: &MemHook) -> T {
         memhook
             .read_val_ptr(self.base, &self.offsets[0])
-            .unwrap_or(T::default())
+            .unwrap_or_default()
     }
 
     fn write_value(&self, memhook: &MemHook, value: T) {
         for offset in &self.offsets {
-            let _ = memhook.write_val_ptr(self.base, &offset, value);
+            let _ = memhook.write_val_ptr(self.base, offset, value);
         }
     }
 }
