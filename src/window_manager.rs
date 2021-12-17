@@ -12,7 +12,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
     ShowWindow, SHOW_WINDOW_CMD, SYSTEM_METRICS_INDEX, WINDOW_LONG_PTR_INDEX,
 };
 
-use glutin::dpi::{PhysicalPosition, PhysicalSize};
+use glutin::dpi::{LogicalSize, LogicalPosition};
 
 use egui::Rect;
 
@@ -76,7 +76,7 @@ impl WindowManager {
 
         let gl_win = display.gl_window();
         let display_win = gl_win.window();
-        display_win.set_outer_position(PhysicalPosition::new(
+        display_win.set_outer_position(LogicalPosition::new(
             win_rect.left + self.win_offset.0,
             win_rect.top + self.win_offset.1,
         ));
@@ -85,7 +85,7 @@ impl WindowManager {
     pub fn update_window_size(&self, display: &Display, rect: Rect) {
         let gl_win = display.gl_window();
         let display_win = gl_win.window();
-        display_win.set_inner_size(PhysicalSize::new(rect.width(), rect.height()));
+        display_win.set_inner_size(LogicalSize::new(rect.width(), rect.height()));
     }
 
     pub fn update_window_visibility(&self) {
