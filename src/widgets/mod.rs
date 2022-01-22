@@ -115,7 +115,7 @@ impl Widgets {
         ));
 
         let instant_boost_hack = Box::new(Checkbox::new(
-            "Submarine Instant Boost".to_string(),
+            "Submersible Instant Boost".to_string(),
             inside_base,
             vec![0xF8D708, 0x118, 0xC0, 0x868, 0x158, 0x20, 0x100, 0x70, 0xB4],
             vec![0x0, 0x0, 0x0, 0x3F, 0x0, 0x0, 0x80, 0x40],
