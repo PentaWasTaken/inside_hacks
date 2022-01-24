@@ -12,7 +12,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
     ShowWindow, SHOW_WINDOW_CMD, SYSTEM_METRICS_INDEX, WINDOW_LONG_PTR_INDEX,
 };
 
-use glutin::dpi::{LogicalSize, LogicalPosition};
+use glutin::dpi::{LogicalPosition, LogicalSize};
 
 use egui::Rect;
 
