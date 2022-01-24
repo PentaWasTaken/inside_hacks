@@ -108,7 +108,7 @@ impl Interface {
                     }
                 }
                 Event::MainEventsCleared => {
-                    self.redraw(&mut control_flow);
+                    self.redraw(control_flow);
                     self.window_manager.update_window_pos(&self.display);
                     self.window_manager.update_window_visibility();
 
