@@ -10,6 +10,9 @@ use savestate::Savestate;
 mod valueeditor_multiple;
 use valueeditor_multiple::ValueEditorMultiple;
 
+mod checkpoint_loader;
+use checkpoint_loader::CheckpointLoader;
+
 use egui::Ui;
 
 use memhack::MemHook;
@@ -106,6 +109,13 @@ impl Widgets {
             ],
         ));
 
+        let checkpoint_loader = Box::new(CheckpointLoader::new(
+            inside_base,
+            vec![0xF92820, 0x8, 0x50, 0x0, 0x18, 0x18, 0x60, 0x58, 0x6C],
+            vec![0xF92820, 0x8, 0x50, 0x0, 0x18, 0x18, 0x60, 0x58, 0x70],
+            vec![0xF99BA8, 0xC8, 0x78, 0x188, 0x28, 0xD8, 0x20, 0x2B],
+        ));
+
         let fall_damage_hack = Box::new(Checkbox::new(
             "Disable Fall Damage".to_string(),
             inside_base,
@@ -143,6 +153,7 @@ impl Widgets {
                 breath_edit,
                 boy_size_edit,
                 save_state,
+                checkpoint_loader,
                 fall_damage_hack,
                 instant_boost_hack,
             ],
