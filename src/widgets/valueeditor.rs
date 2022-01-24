@@ -70,7 +70,7 @@ where
             if value.len() > 10 {
                 value = "0.0000".to_string();
             }
-            ui.add_sized((self.sizes.1, HEIGHT), Label::new(format!("{}", value)));
+            ui.add_sized((self.sizes.1, HEIGHT), Label::new(value));
 
             let text_edit_response = ui.add_sized(
                 (self.sizes.2, HEIGHT),
@@ -106,5 +106,5 @@ where
         });
     }
 
-    fn close(&self, memhook: &MemHook) {}
+    fn close(&self, _memhook: &MemHook) {}
 }

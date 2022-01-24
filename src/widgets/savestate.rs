@@ -82,5 +82,5 @@ impl Widget for Savestate {
         });
     }
 
-    fn close(&self, memhook: &MemHook) {}
+    fn close(&self, _memhook: &MemHook) {}
 }

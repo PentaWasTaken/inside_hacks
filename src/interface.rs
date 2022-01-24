@@ -98,7 +98,7 @@ impl Interface {
     }
 
     pub fn run(mut self, event_loop: EventLoop<()>) {
-        event_loop.run(move |event, _, mut control_flow| {
+        event_loop.run(move |event, _, control_flow| {
             let start_time = Instant::now();
             match event {
                 Event::WindowEvent { event, .. } => {
