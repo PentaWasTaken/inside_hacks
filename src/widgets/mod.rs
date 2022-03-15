@@ -51,6 +51,20 @@ impl Widgets {
             sizes,
         ));
 
+        let x_vel_edit = Box::new(ValueEditor::<f32>::new(
+            "X-Velocity".to_string(),
+            inside_base,
+            vec![0xF92610, 0x4C0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x1C],
+            sizes,
+        ));
+
+        let y_vel_edit = Box::new(ValueEditor::<f32>::new(
+            "Y-Velocity".to_string(),
+            inside_base,
+            vec![0xF92610, 0x4C0, 0x10, 0x98, 0x670, 0x0, 0x58, 0x70, 0x20],
+            sizes,
+        ));
+
         let jump_strength_edit = Box::new(ValueEditor::<f32>::new(
             "Jump Strength".to_string(),
             inside_base,
@@ -132,26 +146,18 @@ impl Widgets {
             vec![0x0; 8],
         ));
 
-        let boy_size_edit = Box::new(ValueEditor::<f32>::new(
-            "Boy Size".to_string(),
-            inside_base,
-            vec![
-                0xF99BA8, 0xC8, 0x78, 0x188, 0x28, 0xD8, 0x20, 0x48, 0x20, 0x90,
-            ],
-            sizes,
-        ));
-
         Self {
             widgets: vec![
                 x_pos_edit,
                 y_pos_edit,
                 z_pos_edit,
+                x_vel_edit,
+                y_vel_edit,
                 jump_strength_edit,
                 run_speed_edit,
                 swim_speed_edit,
                 sub_speed_edit,
                 breath_edit,
-                boy_size_edit,
                 save_state,
                 checkpoint_loader,
                 fall_damage_hack,
