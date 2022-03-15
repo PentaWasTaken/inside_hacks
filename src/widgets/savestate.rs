@@ -1,6 +1,9 @@
 use crate::widgets::Widget;
 
-use egui::widgets::Button;
+use egui::{
+    widgets::{Button, Label},
+    Color32,
+};
 
 use memhack::{MemHackError, MemHook};
 
@@ -51,14 +54,14 @@ impl Savestate {
 impl Widget for Savestate {
     fn draw(&mut self, ui: &mut egui::Ui, memhook: &memhack::MemHook) {
         ui.horizontal(|ui| {
-            ui.label("Save State");
+            ui.add(Label::new("Save State").text_color(Color32::LIGHT_GRAY));
 
             let response = ui.add_enabled(self.index > 1, Button::new("<"));
             if response.clicked() {
                 self.index -= 1;
             }
 
-            ui.label(self.index.to_string());
+            ui.add(Label::new(self.index.to_string()).text_color(Color32::LIGHT_GRAY));
 
             let response = ui.add_enabled(self.index < 9, Button::new(">"));
             if response.clicked() {

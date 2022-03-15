@@ -7,7 +7,7 @@ use crate::window_manager::WindowManager;
 
 use crate::widgets::Widgets;
 
-use egui::{Align, Layout};
+use egui::{Align, Color32, Layout, Visuals};
 
 use std::time::{Duration, Instant};
 
@@ -36,6 +36,11 @@ impl Interface {
 
         let display = glium::Display::new(window_builder, context_builder, event_loop).unwrap();
         let egui_glium = EguiGlium::new(&display);
+
+        let mut visuals = Visuals::dark();
+        visuals.override_text_color = Some(Color32::LIGHT_GRAY);
+        egui_glium.ctx().set_visuals(visuals);
+
         let window_manager = WindowManager::new("INSIDE", &display).unwrap();
 
         Self {
@@ -49,20 +54,8 @@ impl Interface {
     fn redraw(&mut self, control_flow: &mut ControlFlow) {
         self.egui_glium.begin_frame(&self.display);
 
-        let frame = egui::containers::Frame {
-            margin: egui::vec2(5.0, 5.0),
-            corner_radius: 5.0,
-            shadow: egui::epaint::Shadow {
-                extrusion: 0.0,
-                ..Default::default()
-            },
-            fill: egui::Color32::from_gray(30),
-            stroke: egui::Stroke::new(2.0, egui::Color32::BLACK),
-        };
-
         let mut open = true;
         egui::Window::new("Inside Hacks")
-            .frame(frame)
             .resizable(false)
             .fixed_pos((0.0, 0.0))
             .fixed_size((300.0, 50.0))

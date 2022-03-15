@@ -9,7 +9,7 @@ use std::ops::Add;
 use std::str::FromStr;
 
 use egui::widgets::{Label, TextEdit};
-use egui::Key;
+use egui::{Color32, Key};
 
 const HEIGHT: f32 = 20.0;
 
@@ -63,14 +63,17 @@ where
         ui.horizontal(|ui| {
             ui.add_sized(
                 (self.sizes.0, HEIGHT),
-                Label::new(format!("{}: ", self.name)),
+                Label::new(format!("{}: ", self.name)).text_color(Color32::LIGHT_GRAY),
             );
 
             let mut value = format!("{:.4}", self.read_value(memhook));
             if value.len() > 10 {
                 value = "0.0000".to_string();
             }
-            ui.add_sized((self.sizes.1, HEIGHT), Label::new(value));
+            ui.add_sized(
+                (self.sizes.1, HEIGHT),
+                Label::new(value).text_color(Color32::LIGHT_GRAY),
+            );
 
             let text_edit_response = ui.add_sized(
                 (self.sizes.2, HEIGHT),

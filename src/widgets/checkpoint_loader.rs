@@ -1,6 +1,9 @@
 use crate::widgets::Widget;
 
-use egui::widgets::{Button, TextEdit};
+use egui::{
+    widgets::{Button, TextEdit},
+    Color32, Label,
+};
 
 use memhack::{MemHackError, MemHook};
 
@@ -60,10 +63,14 @@ impl Widget for CheckpointLoader {
     fn draw(&mut self, ui: &mut egui::Ui, memhook: &MemHook) {
         ui.horizontal(|ui| {
             let (section, subsection) = self.read_value(memhook);
-            ui.label(format!(
-                "Checkpoint: {section:0width$}|{subsection}",
-                width = 2
-            ));
+
+            ui.add(
+                Label::new(format!(
+                    "Checkpoint: {section:0width$}|{subsection}",
+                    width = 2
+                ))
+                .text_color(Color32::LIGHT_GRAY),
+            );
 
             ui.add_sized(
                 (WIDTH, HEIGHT),
